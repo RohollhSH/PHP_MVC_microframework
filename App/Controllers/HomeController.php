@@ -11,13 +11,14 @@ namespace App\Controllers;
 
 class HomeController
 {
-    public function __construct()
+
+    public function index($request)
     {
-        echo "autoloader works <br>";
+        var_dump($request);
     }
 
-    public function index()
+    public function contact($request)
     {
-        echo"HomeController_index";
+        var_dump($request);
     }
 }

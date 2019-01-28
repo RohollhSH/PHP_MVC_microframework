@@ -13,7 +13,7 @@ use App\Core\Request;
 
 class Router
 {
-    private $routes;
+    private static $routes;
     private static $base_controller = "App" . DS . "Controllers" . DS;
     private static $base_middleware = "App" . DS . "Middleware" . DS;
 
@@ -23,6 +23,7 @@ class Router
 
     public static function dispatch()
     {
+        self::$routes = include_once ABSPATH . DS . "routes" . DS . "web.php";
         //get Current Route
         $current_route = self::getCurrentRoute();
         if (self::isRouteDefined($current_route)) {
@@ -33,17 +34,20 @@ class Router
             }
 
 
-            // middleware
-            $request = new Request();
-            $middleware_class = self::$base_middleware . self::getRouteMiddleware($current_route);
-            $middleware_instance = new $middleware_class;
-            $middleware_instance->handle($request);
+
             //controller
             list($route_target_controller,$route_target_method) = explode('@',self::getRouteTarget($current_route));
             $route_target_controller = self::$base_controller.$route_target_controller;
             $controller     = new $route_target_controller();
             if (method_exists($controller,$route_target_method)) {
-                $controller->$route_target_method();
+                // middleware
+                $request = new Request();
+                $middleware_class = self::$base_middleware . self::getRouteMiddleware($current_route);
+                if (class_exists($middleware_class)) {
+                    $middleware_instance = new $middleware_class;
+                    $middleware_instance->handle($request);
+                }
+                $controller->$route_target_method($request);
             }else{
                 echo "invalid method for this controller";
             }
@@ -56,7 +60,7 @@ class Router
 
     public static function getCurrentRoute()
     {
-        return strtok($_SERVER['REQUEST_URI'],"?");
+        return strtok(strtolower($_SERVER['REQUEST_URI']),"?");
     }
 
     public static function isRouteDefined($key)
@@ -66,7 +70,7 @@ class Router
 
     public static function getRoutes()
     {
-        return include ABSPATH . DS . "routes" . DS . "web.php";
+        return self::$routes;
     }
 
     public static function getRouteHttpMethods($key): array {
@@ -79,7 +83,7 @@ class Router
         $routes       = self::getRoutes();
         return $routes[$key]['target'];
     }
-    public static function getRouteMiddleware($key): string
+    public static function getRouteMiddleware($key)
     {
         $routes       = self::getRoutes();
         return $routes[$key]['middleware'] ?? null ;
