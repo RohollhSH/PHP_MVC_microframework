@@ -10,6 +10,7 @@ namespace App\Services\Router;
 
 
 use App\Core\Request;
+use App\Services\View\View;
 
 class Router
 {
@@ -52,8 +53,7 @@ class Router
                 echo "invalid method for this controller";
             }
         } else {
-            echo "Invalid URI !";
-//            header("Location : /404.html");
+            View::load('errors.404');
         }
 
     }

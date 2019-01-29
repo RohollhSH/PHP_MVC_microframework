@@ -11,14 +11,32 @@ namespace App\Services\View;
 
 class View
 {
-    public static function load(string $viewPath, array $data)
+    public static function load(string $viewPath, array $data=array(),$layout=null)
     {
         $viewPath = str_replace('.',DS ,$viewPath);
         $fullViewPath = ABSPATH . DS . "views" . DS .$viewPath.".php";
         if (file_exists($fullViewPath) and is_readable($fullViewPath)) {
-//        include_once ABSPATH.DS."views".DS."user".DS."orders.php";
             extract($data);
+            if ($layout==null){
             include_once $fullViewPath;
+        }else{
+                $fullLayoutPath = ABSPATH . DS . "views" . DS . 'layout' . DS .$layout.".php";
+                $view = View::render($viewPath);
+                include $fullLayoutPath;
+            }
+
+        }
+    }
+    public static function render(string $viewPath, array $data=array())
+    {
+        $viewPath = str_replace('.',DS ,$viewPath);
+        $fullViewPath = ABSPATH . DS . "views" . DS .$viewPath.".php";
+        if (file_exists($fullViewPath) and is_readable($fullViewPath)) {
+            extract($data);
+            ob_start();
+            include_once $fullViewPath;
+            $rendered_view = ob_get_clean();
+            return $rendered_view;
         }
     }
 }

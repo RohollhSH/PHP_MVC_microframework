@@ -9,16 +9,18 @@
 namespace App\Controllers;
 
 
+use App\Services\View\View;
+
 class HomeController
 {
 
     public function index($request)
     {
-        var_dump($request);
+        View::load('home.index',array(),'frontend');
     }
 
     public function contact($request)
     {
-        var_dump($request);
+        View::load('home.contact');
     }
 }
