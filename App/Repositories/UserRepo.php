@@ -10,9 +10,9 @@ namespace App\Repositories;
 
 
 
-use App\Models\UserModel;
+use App\Models\User;
 
 class UserRepo extends BaseRepo
 {
-    protected static $model = UserModel::class ;
+    protected $model =  User::class;
 }

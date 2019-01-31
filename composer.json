@@ -1,0 +1,21 @@
+{
+    "name": "rohollah/php_mvc_microframework",
+    "description": "ver basic php micro framework",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "RohollhSH",
+            "email": "rohollahshahbazi93@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "illuminate/events": "^5.7",
+        "illuminate/database": "^5.7"
+    },
+    "autoload": {
+        "psr-4": {"App\\": "App/"}
+    }
+}

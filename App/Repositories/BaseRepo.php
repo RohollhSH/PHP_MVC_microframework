@@ -15,21 +15,31 @@ abstract class BaseRepo
 
     public function insert($data)
     {
-        return $model->insert($data);
+        return static::$model::insert($data);
     }
 
     public function find($id)
     {
-        return $model->find($id);
+        return static::$model::find($id);
     }
 
-    public function findAll()
+    public function findFirst($id)
     {
-        return $model->findAll();
+        return static::$model::find($id)->first();
     }
 
-    public function update($data , $id)
+    public function findLast($id)
     {
-        return $model->update($data , $id);
+        return static::$model::find($id)->last();
     }
+
+    public function all()
+    {
+        return static::$model::all();
+    }
+
+/*    public function update($data , $id)
+    {
+        return static::$model->update($data , $id);
+    }*/
 }

@@ -20,4 +20,9 @@ return $routes = [
         'target'=>'UserController@register',
         'middleware'=>'SecurityMiddleware'
     ],
+    '/product/item' => [
+        'http_method'=>'get',
+        'target'=>'ProductController@item',
+//        'middleware'=>'SecurityMiddleware'
+    ],
 ];

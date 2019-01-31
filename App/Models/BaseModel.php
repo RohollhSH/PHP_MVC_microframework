@@ -10,41 +10,12 @@ namespace App\Models;
 
 
 use App\Services\Database\DbConnection;
+use Illuminate\Database\Eloquent\Model;
 
-abstract class BaseModel
+class BaseModel extends Model
 {
-    protected $connection;
     protected $table;
-    protected $primary_key;
-    public function __construct()
-    {
-        $this->connection = new DbConnection();
-    }
+    protected $primaryKey;
 
-    public function insert($data)
-    {
-        
-    }
-
-    public function find($id)
-    {
-        $sql = "select * from {$this->table} where {$this->primary_key} = '$id'";
-        return $this->connection->query($sql);
-    }
-
-    public function finaAll()
-    {
-        $sql = "select * from {$this->table}";
-        return $this->connection->query($sql);
-    }
-
-    public function update($data,$id)
-    {
-        
-    }
-
-    public function delete($id)
-    {
-
-    }
+    public $timestamps = false;
 }

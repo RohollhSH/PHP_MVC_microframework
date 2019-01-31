@@ -24,7 +24,7 @@ class UserController
 
     public function orders($request)
     {
-        $users = $this->userRepo->findAll();
+        var_dump($user = $this->userRepo->find(1));
     }
 
     public function register(Request $request)
